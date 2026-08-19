@@ -41,4 +41,3 @@ def hello_from_pl():
 
     if result != 0:
         raise RuntimeError(f"Perl function failed: {result}")
-    
