@@ -23,20 +23,30 @@ JAVA_IMPORT = java_lib/jvm.dll.a
 all: c_lib/c_lib.dll cpp_lib/cpp_lib.dll cs_lib/cs_lib.dll pl_lib/pl_lib.dll rb_lib/rb_lib.dll java_lib/java_lib.dll
 
 c_lib/c_lib.dll: c_lib/c_lib.c
+	$(info )
+	$(info compiling C)
 	$(CC) $(CFLAGS) c_lib/c_lib.c -o c_lib/c_lib.dll
 
 cpp_lib/cpp_lib.dll: cpp_lib/cpp_lib.cpp
+	$(info )
+	$(info compiling C++)
 	$(CXX) $(CXXFLAGS) cpp_lib/cpp_lib.cpp -o cpp_lib/cpp_lib.dll
 
 cs_lib/cs_lib.dll: cs_lib/cs_lib.cs cs_lib/cs_lib.csproj global.json
+	$(info )
+	$(info compiling C#)
 	$(DOTNET) build cs_lib/cs_lib.csproj -c Release --nologo
 	cp cs_lib/bin/Release/net8.0/cs_lib.dll cs_lib/cs_lib.dll
 
 pl_lib/pl_lib.dll: pl_lib/pl_lib.c
+	$(info )
+	$(info compiling Perl)
 	$(CC) $(CFLAGS) -I$(PERL_INC) pl_lib/pl_lib.c -o pl_lib/pl_lib.dll \
 		$(PERL_LIB)/libperl538.a
 
 rb_lib/rb_lib.dll: rb_lib/rb_lib.c
+	$(info )
+	$(info compiling Ruby)
 	$(CC) $(CFLAGS) \
 		-I$(RUBY_INC) \
 		-I$(RUBY_ARCH_INC) \
@@ -45,6 +55,8 @@ rb_lib/rb_lib.dll: rb_lib/rb_lib.c
 		$(RUBY_LIB)/libx64-msvcrt-ruby340.dll.a
 
 java_lib/java_lib.class: java_lib/java_lib.java
+	$(info )
+	$(info compiling Java)
 	javac -d java_lib java_lib/java_lib.java
 
 java_lib/java_lib.dll: java_lib/java_lib.c java_lib/java_lib.class
@@ -56,6 +68,8 @@ java_lib/java_lib.dll: java_lib/java_lib.c java_lib/java_lib.class
 		"$(JAVA_SERVER)/jvm.dll"
 
 run: all
+	$(info )
+	$(info the money shot)
 	py orchestrator.py
 
 clean:
