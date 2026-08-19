@@ -19,16 +19,15 @@ __pycache__/
 cs_lib/bin/
 cs_lib/obj/
 
-# Ruby
-*.gem
-
 # Java
 *.class
-*.jar
-*.war
-*.ear
-java_lib/bin/
-java_lib/out/
+java_lib/*.class
+java_lib/jvm.dll.a
+java_lib/jvm.def
+java_lib/jvm.exports
+
+# Ruby
+*.gem
 
 # Build output
 build/
