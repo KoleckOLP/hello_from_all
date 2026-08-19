@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# C / C++
+*.o
+*.obj
+*.a
+*.lib
+*.exp
+
+# Native DLLs
+*.dll
+
+# C#
+cs_lib/bin/
+cs_lib/obj/
+
+# Ruby
+*.gem
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+java_lib/bin/
+java_lib/out/
+
+# Build output
+build/
+dist/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.log
