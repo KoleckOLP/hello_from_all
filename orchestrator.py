@@ -9,6 +9,7 @@ import pl_lib
 import rb_lib
 import java_lib
 import js_lib
+import rs_lib
 
 def main():
 	py_lib.hello_from_py()
@@ -19,6 +20,7 @@ def main():
 	rb_lib.hello_from_rb()
 	java_lib.hello_from_java()
 	js_lib.hello_from_js()
+	rs_lib.hello_from_rs()
 
 if __name__ == "__main__":
 	main()

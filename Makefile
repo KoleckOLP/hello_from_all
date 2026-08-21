@@ -3,6 +3,7 @@
 CC = gcc
 CXX = g++
 DOTNET = dotnet
+RUSTC = rustc
 
 CFLAGS = -shared -fPIC
 CXXFLAGS = -shared -fPIC -std=c++20 -static -static-libstdc++ -static-libgcc
@@ -23,7 +24,7 @@ NODE_HOME = C:/msys64/mingw64
 NODE_INC = $(NODE_HOME)/include/node
 NODE_LIB = $(NODE_HOME)/lib/libnode.dll.a
 
-all: c_lib/c_lib.dll cpp_lib/cpp_lib.dll cs_lib/cs_lib.dll pl_lib/pl_lib.dll rb_lib/rb_lib.dll java_lib/java_lib.dll js_lib/js_lib.dll
+all: c_lib/c_lib.dll cpp_lib/cpp_lib.dll cs_lib/cs_lib.dll pl_lib/pl_lib.dll rb_lib/rb_lib.dll java_lib/java_lib.dll js_lib/js_lib.dll rs_lib/rs_lib.dll
 
 c_lib/c_lib.dll: c_lib/c_lib.c
 	$(info )
@@ -80,6 +81,11 @@ js_lib/js_lib.dll: js_lib/js_lib.cpp
 		"$(NODE_LIB)" \
 		-lpsapi -liphlpapi -lwinmm -lws2_32 -ldbghelp -lcrypt32 -luserenv
 
+rs_lib/rs_lib.dll: rs_lib/rs_lib.rs
+	$(info )
+	$(info compiling Rust)
+	$(RUSTC) --crate-type cdylib rs_lib/rs_lib.rs -o rs_lib/rs_lib.dll
+
 run: all
 	$(info )
 	$(info the money shot)
@@ -99,3 +105,4 @@ clean:
 	rm -f java_lib/jvm.def
 	rm -f java_lib/jvm.exports
 	rm -rf cs_lib/bin cs_lib/obj
+	rm -f rs_lib/rs_lib.dll
