@@ -5,7 +5,7 @@ CXX = g++
 DOTNET = dotnet
 
 CFLAGS = -shared -fPIC
-CXXFLAGS = -shared -fPIC -static -static-libstdc++ -static-libgcc
+CXXFLAGS = -shared -fPIC -std=c++20 -static -static-libstdc++ -static-libgcc
 
 PERL_INC = C:/msys64/mingw64/lib/perl5/core_perl/CORE
 PERL_LIB = C:/msys64/mingw64/lib/perl5/core_perl/CORE
@@ -18,9 +18,12 @@ JAVA_HOME = C:/Program Files/Java/jdk-21.0.12.1
 JAVA_INC = $(JAVA_HOME)/include
 JAVA_WIN_INC = $(JAVA_INC)/win32
 JAVA_SERVER = $(JAVA_HOME)/bin/server
-JAVA_IMPORT = java_lib/jvm.dll.a
 
-all: c_lib/c_lib.dll cpp_lib/cpp_lib.dll cs_lib/cs_lib.dll pl_lib/pl_lib.dll rb_lib/rb_lib.dll java_lib/java_lib.dll
+NODE_HOME = C:/msys64/mingw64
+NODE_INC = $(NODE_HOME)/include/node
+NODE_LIB = $(NODE_HOME)/lib/libnode.dll.a
+
+all: c_lib/c_lib.dll cpp_lib/cpp_lib.dll cs_lib/cs_lib.dll pl_lib/pl_lib.dll rb_lib/rb_lib.dll java_lib/java_lib.dll js_lib/js_lib.dll
 
 c_lib/c_lib.dll: c_lib/c_lib.c
 	$(info )
@@ -67,6 +70,16 @@ java_lib/java_lib.dll: java_lib/java_lib.c java_lib/java_lib.class
 		-o java_lib/java_lib.dll \
 		"$(JAVA_SERVER)/jvm.dll"
 
+js_lib/js_lib.dll: js_lib/js_lib.cpp
+	$(info )
+	$(info compiling JavaScript bridge)
+	$(CXX) $(CXXFLAGS) \
+		-I"$(NODE_INC)" \
+		js_lib/js_lib.cpp \
+		-o js_lib/js_lib.dll \
+		"$(NODE_LIB)" \
+		-lpsapi -liphlpapi -lwinmm -lws2_32 -ldbghelp -lcrypt32 -luserenv
+
 run: all
 	$(info )
 	$(info the money shot)
@@ -80,6 +93,8 @@ clean:
 	rm -f rb_lib/rb_lib.dll
 	rm -f java_lib/java_lib.dll
 	rm -f java_lib/*.class
+	rm -f js_lib/js_lib.dll
+	rm -f node_dev/libnode.dll.a
 	rm -f java_lib/jvm.dll.a
 	rm -f java_lib/jvm.def
 	rm -f java_lib/jvm.exports
